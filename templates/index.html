@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/estilosIndex.css') }}"/>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css"
+    />
+    <title>Tienda de Computación</title>
+  </head>
+  <body>
+    <header class="header">
+      <img src="{{ url_for('static', filename='img/TienditaGamer.webp') }}" alt="TienditaGamer" class="logo" />
+      <button id="abrir" class="abrir-menu"><i class="bi bi-list"></i></button>
+      <nav class="nav" id="nav">
+        <button class="cerrar-menu" id="cerrar"><i class="bi bi-x"></i></button>
+        <ul class="nav-list">
+          <li><a href="{{ url_for('home') }}">Inicio</a></li>
+          <li>
+            <a href="{{ url_for('productos') }}">Productos</a>
+          </li>
+          <li>
+            <a href="{{ url_for('contacto') }}">Contacto</a>
+          </li>
+          <li>
+            <a href="{{ url_for('inicioSesion') }}">Usuario</a>
+          </li>
+        </ul>
+      </nav>
+    </header>
+    <main>
+      <div class="carrousel">
+        <div class="grande">
+          <img src="{{ url_for('static', filename='img/s200tg.webp') }}" alt="Imagen 1" class="img" />
+          <img
+            src="{{ url_for('static', filename='img//ZOTAC-GAMING-GeForce-RTX-4070-Twin-Edge.webp') }}"
+            alt="Imagen 2"
+            class="img"
+          />
+          <img
+            src="{{ url_for('static', filename='img/DC_20240409092920_D604zdHO.webp') }}"
+            alt="Imagen 3"
+            class="img"
+          />
+        </div>
+
+        <ul class="puntos">
+          <li class="punto"></li>
+          <li class="punto"></li>
+          <li class="punto"></li>
+        </ul>
+      </div>
+      <h1>
+        {% for dato in datos %}
+        {{ dato.Name }} ESTAMOS TRATANDO
+        {% endfor %}
+      </h1>
+
+      <section id="gridProducts"></section>
+    </main>
+    <script src="{{ url_for('static', filename='js/general.js') }}"></script>
+    <!--Footer -->
+    <footer class="pie-pagina">
+      <div class="grupo-1">
+        <div class="box">
+          <figure>
+            <a href="#top">
+              <img
+                src="{{ url_for('static', filename='img/TienditaGamer.webp') }}"
+                alt="Logo TienditaGamer"
+                id="imgFooter"
+              />
+            </a>
+          </figure>
+        </div>
+        <div class="box">
+          <h2>SOBRE NOSOTROS</h2>
+          <p>
+            Somos una empresa que se dedica a vender componentes de hardware, en
+            la cual nuestro objetivo es ser una alternativa para aquellos que
+            busquen componentes de manera local a buen precio y no quieran pagar
+            mas de lo que costaria si lo buscaran en otros lados
+          </p>
+        </div>
+      </div>
+      <div class="grupo-2">
+        <small
+          >&copy; 2024 <b>TienditaGamer</b> - Todos los Derechos
+          Reservados.</small
+        >
+      </div>
+    </footer>
+  </body>
+</html>
