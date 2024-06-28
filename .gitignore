@@ -1,3 +1,4 @@
 enviroment
 __pycache__
 sql
+.gitignore
