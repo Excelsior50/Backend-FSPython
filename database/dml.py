@@ -1,5 +1,5 @@
 from flask import render_template, request, redirect, url_for
-from connect_db import cursor,connection
+from database.connect_db import get_db_connection
 from app import app
 
 print('entro')
@@ -17,7 +17,13 @@ def form():
 # Ruta para manejar la creación o actualización de un contacto
 @app.route('/add_contact', methods=['POST'])
 def add_contact():
-        print('entro')
+        connection = get_db_connection()
+        try:
+            cursor = connection.cursor(dictionary = True)
+        except Exception: 
+            connection.connect()
+            cursor = connection.cursor(dictionary = True)
+
         nombre = request.form['nombre']
         email = request.form['email']
         numeroTelefono = request.form['numeroTelefono']
@@ -28,29 +34,31 @@ def add_contact():
         otros = 'otros' in request.form
         perfil = request.form['turno']
         mensaje = request.form['mensaje']
-
-        # Comprueba si el contacto ya existe por DNI
-        cursor.execute("SELECT * FROM contacts WHERE DNI = %s", (dni,))
-        existing_contact = cursor.fetchone()
-
-        if existing_contact:
-            # Actualiza el contacto existente
-            update_query = """
-                UPDATE Contacts
-                SET Name = %s, Email = %s, Phone = %s, ArmadoPC = %s, ActHard = %s, ActSoft = %s, Otros = %s, Profile = %s, Message = %s
-                WHERE DNI = %s
-            """
-            cursor.execute(update_query, (nombre, email, numeroTelefono, armadoPC, actHard, actSoft, otros, perfil, mensaje, dni))
-        else:
-            # Inserta un nuevo contacto
-            insert_query = """
+        
+        # Inserta un nuevo contacto
+        insert_query = """
                 INSERT INTO Contacts (Name, Email, Phone, DNI, ArmadoPC, ActHard, ActSoft, Otros, Profile, Message)
                 VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
             """
-            cursor.execute(insert_query, (nombre, email, numeroTelefono, dni, armadoPC, actHard, actSoft, otros, perfil, mensaje))
+        cursor.execute(insert_query, (nombre, email, numeroTelefono, dni, armadoPC, actHard, actSoft, otros, perfil, mensaje))
 
         connection.commit()
         return redirect(url_for('form'))
+
+# Comprueba si el contacto ya existe por DNI
+#        cursor.execute("SELECT * FROM contacts WHERE DNI = %s", (dni,))
+#        existing_contact = cursor.fetchone()
+#
+#        if existing_contact:
+#            # Actualiza el contacto existente
+#            update_query = """
+#                UPDATE Contacts
+#                SET Name = %s, Email = %s, Phone = %s, ArmadoPC = %s, ActHard = %s, ActSoft = %s, Otros = %s, Profile = %s, Message = %s
+#                WHERE DNI = %s
+#            """
+#            cursor.execute(update_query, (nombre, email, numeroTelefono, armadoPC, actHard, actSoft, otros, perfil, mensaje, dni))
+#        else:
+
 
 # Ruta para mostrar los contactos
 @app.route('/contacts')
