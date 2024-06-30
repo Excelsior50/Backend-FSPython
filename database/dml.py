@@ -58,7 +58,7 @@ def add_contact():
 #            """
 #            cursor.execute(update_query, (nombre, email, numeroTelefono, armadoPC, actHard, actSoft, otros, perfil, mensaje, dni))
 #        else:
-
+"""
 
 # Ruta para mostrar los contactos
 @app.route('/contacts')
@@ -83,7 +83,7 @@ def delete_contact_by_dni():
     return redirect(url_for('contacts'))
 
 
-"""class Tabla:
+class Tabla:
     
     # Constructor
     def __init__(self):

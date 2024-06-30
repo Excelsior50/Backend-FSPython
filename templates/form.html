@@ -9,6 +9,14 @@
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css"
     />
     <title>Tienda de Computación</title>
+    <script>
+      function editUser(id, name, email) {
+          document.getElementById('edit-id').value = id;
+          document.getElementById('edit-nombre').value = name;
+          document.getElementById('edit-email').value = email;
+          document.getElementById('edit-form').style.display = 'block';
+      }
+  </script>
   </head>
   <body>
     <header class="header">
@@ -31,54 +39,37 @@
       </nav>
     </header>
     <main>
-      <div>
-        {{datos}}
-      </div>
-      <div class="carrousel">
-        <div class="grande">
-          <img src="{{ url_for('static', filename='img/s200tg.webp') }}" alt="Imagen 1" class="img" />
-          <img
-            src="{{ url_for('static', filename='img//ZOTAC-GAMING-GeForce-RTX-4070-Twin-Edge.webp') }}"
-            alt="Imagen 2"
-            class="img"
-          />
-          <img
-            src="{{ url_for('static', filename='img/DC_20240409092920_D604zdHO.webp') }}"
-            alt="Imagen 3"
-            class="img"
-          />
-        </div>
-
-        <ul class="puntos">
-          <li class="punto"></li>
-          <li class="punto"></li>
-          <li class="punto"></li>
-        </ul>
-      </div>
-      <h1>
-        {% for dato in datos %}
-        {{ dato.Name }} ESTAMOS TRATANDO
-        {% endfor %}
-      </h1>
-
-      <section id="gridProducts"></section>
-    </main>
-    <script src="{{ url_for('static', filename='js/general.js') }}"></script>
-    <!--Footer -->
-    <footer class="pie-pagina">
-      <div class="grupo-1">
-        <div class="box">
-          <figure>
-            <a href="#top">
-              <img
-                src="{{ url_for('static', filename='img/TienditaGamer.webp') }}"
-                alt="Logo TienditaGamer"
-                id="imgFooter"
-              />
-            </a>
-          </figure>
-        </div>
-        <div class="box">
+      <h3>Resultados de la Búsqueda</h3>
+      {% if resultados %}
+      <table border="1">
+          <tr>
+              <th>Nombre</th>
+              <th>Correo Electrónico</th>
+              <th>Número de Teléfono</th>
+              <th>Mensaje</th>
+              <th>Acciones</th>
+          </tr>
+          {% for resultado in resultados %}
+          <tr>
+              <form action="{{ url_for('modificar_usuario', email=resultado['email']) }}" method="post">
+                  <td><input type="text" name="nombre" value="{{ resultado['nombre'] }}" required></td>
+                  <td>{{ resultado['email'] }}</td>
+                  <td><input type="tel" name="numeroTelefono" value="{{ resultado['numeroTelefono'] }}" required></td>
+                  <td><textarea name="mensaje" required>{{ resultado['mensaje'] }}</textarea></td>
+                  <td>
+                      <button type="submit">Modificar</button>
+                      <form action="{{ url_for('eliminar_usuario', email=resultado['email']) }}" method="post" style="display:inline;">
+                          <button type="submit">Eliminar</button>
+                      </form>
+                  </td>
+              </form>
+          </tr>
+          {% endfor %}
+      </table>
+      {% else %}
+      <p>No se encontraron resultados.</p>
+      {% endif %}
+      <div class="box">
           <h2>SOBRE NOSOTROS</h2>
           <p>
             Somos una empresa que se dedica a vender componentes de hardware, en
