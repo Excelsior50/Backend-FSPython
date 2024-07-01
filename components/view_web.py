@@ -1,5 +1,5 @@
-from flask import Blueprint, request, jsonify, redirect, url_for
-from database.request import buscar_usuario_db, eliminar_usuario, modificar_usuario
+from flask import Blueprint, request, jsonify
+from database.request import buscar_usuario_db, eliminar_contact, modificar_contact
 import json
 
 # Crear un Blueprint
@@ -14,7 +14,6 @@ def buscar_usuario_por_email():
             raise ValueError("Datos de solicitud no válidos o 'email' faltante")
         
         email = data['email']
-        print(f"Email recibido: {email}")  # Mensaje de depuración
         resultados = buscar_usuario_db(email)
         print(f"Resultados encontrados view_db: {resultados}")  # Mensaje de depuración
         return jsonify(resultados)
@@ -27,28 +26,24 @@ def buscar_usuario_por_email():
 def eliminar_usuario():
     try:
         data = request.get_json()
-        email = data['email']
-        eliminar_usuario(email)
+        id = data['id']
+        eliminar_contact(id)
         return jsonify({'status': 'success'})
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
 # Ruta para modificar un usuario
 @view_web.route('/modificar', methods=['POST'])
-def modificar_usuario(email):
-#    raw_data = request.get_data()
-#    json_data = raw_data.decode('utf-8')
-#    data = json.loads(json_data)
-    print(f"EMAIL Recibido para Modificar: {email}")
-    data = request.get_json()
-    print(f"Datos Recibido para Modificar: {data}")  # Mensaje de depuración
+def modificar_usuario():
     try:
-        
-        email = data['email']
+        data = request.get_json()
+        id = data['id']
         nombre = data['nombre']
+        email = data['email']
         numeroTelefono = data['numeroTelefono']
         mensaje = data['mensaje']
-        modificar_usuario(email, nombre, numeroTelefono, mensaje)
+        print(f"ID RECIBIDO PARA MODIFICAR: {id}")  # Mensaje de depuración
+        modificar_contact(id, nombre, email, numeroTelefono, mensaje)
         return jsonify({'status': 'success'})
     except Exception as e:
         return jsonify({'error': str(e)}), 500

@@ -55,7 +55,6 @@ def buscar_usuario_db(email):
         cursor = connection.cursor(dictionary = True)
         
     query = "SELECT * FROM contacts WHERE email = %s"
-    print(f"Ejecutando consulta SQL: {query} con email = {email}")  # Mensaje de depuración
     cursor.execute(query, (email,))
     resultados = cursor.fetchall()
     cursor.close()
@@ -63,36 +62,37 @@ def buscar_usuario_db(email):
     return resultados
 
 # Eliminar un usuario por email
-def eliminar_usuario(email):
+def eliminar_contact(id):
     connection = get_db_connection()
     try:
         cursor = connection.cursor(dictionary = True)
     except Exception: 
         connection.connect()
         cursor = connection.cursor(dictionary = True)
-    query = "DELETE FROM contacts WHERE email = %s"
-    cursor.execute(query, (email,))
+    query = "DELETE FROM contacts WHERE id = %s"
+    cursor.execute(query, (id,))
     connection.commit()
     cursor.close()
     connection.close()
 
 
 # Moodificar un usuario
-def modificar_usuario(email, nombre, numeroTelefono, mensaje):
+def modificar_contact(id, nombre, email, numeroTelefono, mensaje):
+    print(f"MODIFICAR: {id} con email = {email}")
     connection = get_db_connection()
     try:
         cursor = connection.cursor(dictionary = True)
-        query = """
-        UPDATE contacts 
-        SET nombre = %s, numeroTelefono = %s, mensaje = %s 
-        WHERE email = %s
-        """
-        print(f"Ejecutando consulta SQL: {query} con email = {email}")
-        cursor.execute(query, (nombre, numeroTelefono, mensaje, email))    
-        connection.commit()
     except Exception: 
         connection.connect()
         cursor = connection.cursor(dictionary = True)
         
+    query = """
+        UPDATE contacts 
+        SET nombre = %s, email = %s, numeroTelefono = %s, mensaje = %s 
+        WHERE id = %s
+        """
+    print(f"Ejecutando consulta SQL: {query} con email = {email}")
+    cursor.execute(query, (nombre, email, numeroTelefono, mensaje, id))    
+    connection.commit()
     cursor.close()
     connection.close()
