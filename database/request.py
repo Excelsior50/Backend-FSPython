@@ -1,4 +1,4 @@
-from flask import request, redirect, render_template, url_for
+from flask import request, jsonify
 from database.connect_db import get_db_connection
 import json
 
@@ -43,7 +43,7 @@ def addCont():
     connection.commit()
     connection.close()
         
-    return 201
+    return jsonify({"message": "Contact added successfully"}), 201
 
 # Mostrar el formulario de búsqueda y resultados por EMAIL
 def buscar_usuario_db(email):
