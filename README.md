@@ -10,4 +10,4 @@ pip install -r requirements.txt
 
 .venv\scripts\activate
 
-python manage.py runserver
+python app.py runserver
