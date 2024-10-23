@@ -9,18 +9,3 @@ def get_db_connection():
                                          database='tiendita_db')
     return connection
 
-
-"""
-#Utilizar los datos
-connection = get_db_connection()
-cursor = connection.cursor(dictionary=True)
-consulta = "SELECT * FROM contacts;"
-
-cursor.execute(consulta)
-datos = cursor.fetchall()
-print(datos)
-#Siempre cierro la conexion para evitar trafico a la db
-connection.close()
-
-"""
-

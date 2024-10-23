@@ -1,4 +1,4 @@
-from flask import Flask, render_template,jsonify, request, redirect, url_for
+from flask import Flask, jsonify
 from database.connect_db import get_db_connection
 from flask_cors import CORS
 from database.request import *
@@ -28,21 +28,3 @@ def add_contact():
 if __name__ == '__main__':
 
     app.run(debug=True) #host='127.0.0.1', port=3000, debug=True
-
-
-"""
-import os
-#CORS en rutas especificas
-#CORS(app,resources={r"/*": {"origins": "*"}, r"/buscar": {"origins": "*"}, r"/modificar": {"origins": "*"}, r"/eliminar": {"origins": "*"}})
-# Directorio del archivo actual
-base_dir = os.path.dirname(os.path.abspath(__file__))
-
-# Configuración del directorio de plantillas y estáticos
-template_dir = os.path.join(base_dir, 'templates')
-static_dir = os.path.join(base_dir, 'static')
-
-# Verificación de la existencia del archivo form.html
-index_file_path = os.path.join(template_dir, 'index.html')
-if not os.path.exists(index_file_path):
-    raise FileNotFoundError(f"El archivo {index_file_path} no existe. Por favor, verifica la ruta y el archivo.")
-"""
