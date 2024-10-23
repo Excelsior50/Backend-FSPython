@@ -1,5 +1,6 @@
-Backend of the Full Stack Side by Side project made in Python \ Flask.
-Perform crud of ApiRest users with database in MysqlWorkbench
+Backend of the Full Stack CodoACodo project made in Python \ Flask.
+
+Perform CRUD of ApiRest users with database in MysqlWorkbench
 
 Prerequisites:
 
